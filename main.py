@@ -1,7 +1,4 @@
 import flet as ft
-from PIL import Image, ImageOps
-import io
-import base64
 import requests
 
 LANGUAGES = {
@@ -125,11 +122,8 @@ def main(page: ft.Page):
         if e.files and len(e.files) > 0:
             file_path = e.files[0].path
             
-            pil_orig = Image.open(file_path)
-            pil_orig = ImageOps.exif_transpose(pil_orig).convert('RGB')
-            buf_orig = io.BytesIO()
-            pil_orig.save(buf_orig, format="JPEG")
-            orig_image.src_base64 = base64.b64encode(buf_orig.getvalue()).decode("utf-8")
+            orig_image.src = file_path
+            orig_image.src_base64 = None
             
             orig_col.visible = True
             ai_col.visible = False
@@ -144,7 +138,7 @@ def main(page: ft.Page):
             try:
                 with open(file_path, 'rb') as f:
                     files = {'file': f}
-                    # УВАГА: ЗАМІНИТИ 192.168.1.XXX НА РЕАЛЬНУ IPv4 АДРЕСУ ТВОГО СЕРВЕРА
+                    # Адреса сервера залишається 192.168.0.121
                     res = requests.post('http://192.168.0.121:5000/predict', files=files)
                 
                 data = res.json()
