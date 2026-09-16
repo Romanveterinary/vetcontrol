@@ -172,4 +172,5 @@ def main(page: ft.Page):
         page.update()
 
 if __name__ == '__main__':
-    ft.app(main)
+    if hasattr(ft, 'app'):
+        ft.app(main)
