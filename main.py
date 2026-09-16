@@ -1,26 +1,25 @@
 import flet as ft
+import requests
+import traceback
+import datetime
+
+LANGUAGES = {
+    "UK": {
+        "title": "ВетКонтроль AI",
+        "animal": "Вид тварини",
+        "organ": "Орган",
+        "analyze_btn": "Зробити фото та Аналізувати",
+        "report_btn": "Створити звіт (HTML)",
+        "exit_btn": "Вийти",
+        "animals": ["Свиня", "ВРХ", "Птиця", "Вівця", "Кріль", "Страус"],
+        "organs": ["Легені", "Серце", "Нирки", "Шлунок", "Кишечник", "Туша"],
+        "status_wait": "Очікування фото...",
+        "labels": ["Здорова", "Гемоаспірація", "Інша патологія", "Пневмонія"]
+    }
+}
 
 def main(page: ft.Page):
     try:
-        import requests
-        import traceback
-        import datetime
-
-        LANGUAGES = {
-            "UK": {
-                "title": "ВетКонтроль AI",
-                "animal": "Вид тварини",
-                "organ": "Орган",
-                "analyze_btn": "Зробити фото та Аналізувати",
-                "report_btn": "Створити звіт (HTML)",
-                "exit_btn": "Вийти",
-                "animals": ["Свиня", "ВРХ", "Птиця", "Вівця", "Кріль", "Страус"],
-                "organs": ["Легені", "Серце", "Нирки", "Шлунок", "Кишечник", "Туша"],
-                "status_wait": "Очікування фото...",
-                "labels": ["Здорова", "Гемоаспірація", "Інша патологія", "Пневмонія"]
-            }
-        }
-
         page.theme_mode = ft.ThemeMode.LIGHT
         page.padding = 20
         page.scroll = ft.ScrollMode.AUTO
@@ -169,14 +168,11 @@ def main(page: ft.Page):
             ], horizontal_alignment=ft.CrossAxisAlignment.CENTER)
         )
     except Exception as e:
-        import traceback
         error_trace = traceback.format_exc()
         page.add(
-            ft.Text("КРИТИЧНА ПОМИЛКА ІМПОРТУ!", color=ft.colors.RED, size=24, weight=ft.FontWeight.BOLD), 
+            ft.Text("КРИТИЧНА ПОМИЛКА!", color=ft.colors.RED, size=24, weight=ft.FontWeight.BOLD), 
             ft.Text(error_trace, color=ft.colors.RED, selectable=True)
         )
         page.update()
 
-if __name__ == '__main__':
-    if hasattr(ft, 'app'):
-        ft.app(main)
+ft.app(target=main)
